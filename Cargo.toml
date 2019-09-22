@@ -1,10 +1,23 @@
 [package]
 name = "git-secret"
-version = "0.1.0"
+version = "1.0.0"
 authors = ["sobolevn <mail@sobolevn.me>"]
 edition = "2018"
+build = "build.rs"
+readme = "README.md"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+categories = ["command-line-utilities"]
+homepage = "https://github.com/sobolev/git-secret"
 
 [dependencies]
+custom_error = "1.7.1"
 clap = {version = "2.33", features = ["yaml", "suggestions", "color"]}
+git2 = "0.10"
+
+[build-dependencies]
+clap = "2.33"
+
+[[bin]]
+name = "git-secret"
+path = "src/cli/main.rs"
+
