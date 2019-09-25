@@ -2,34 +2,29 @@ use std::process;
 
 use clap::ArgMatches;
 
-use git_secret::errors;
 use git_secret::logic;
+use git_secret::types;
 mod cli;
 mod commands;
 
-fn log_abort<T>(
-  result: Result<T, errors::GitSecretError>,
-) -> Result<T, errors::GitSecretError> {
+fn log_abort<T>(result: types::Result<T>) -> types::Result<T> {
   result.map_err(|failure| {
     eprintln!("git-secret: abort: {}", failure);
     failure
   })
 }
 
-fn call_command<F>(
-  command: F,
-  args: &ArgMatches,
-) -> Result<String, errors::GitSecretError>
+fn call_command<F>(command: F, args: &ArgMatches) -> types::Result<String>
 where
-  F: Fn(&ArgMatches) -> Result<String, errors::GitSecretError>,
+  F: Fn(&ArgMatches) -> types::Result<String>,
 {
   log_abort(command(args).map(|success| {
-    println!("{}", success);
+    println!("git-secret: {}", success);
     success
   }))
 }
 
-fn dispatch_command() -> Result<String, errors::GitSecretError> {
+fn dispatch_command() -> types::Result<String> {
   // Peforms sanity checks before executing any commands:
   log_abort(logic::checks::inside_repo())?;
   log_abort(logic::checks::clean_secring())?;
@@ -39,6 +34,7 @@ fn dispatch_command() -> Result<String, errors::GitSecretError> {
 
   match matches.subcommand() {
     ("init", Some(args)) => call_command(commands::init::run, args),
+    ("tell", Some(args)) => call_command(commands::tell::run, args),
     _ => unreachable!("Unknown command"), // this cannot realistically happen!
   }
 }

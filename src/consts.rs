@@ -1,31 +1,33 @@
 use std::path::{Path, PathBuf};
 
-pub enum Paths {
+pub enum SecretDir {
   // Directories:
-  SecretsDir,
-  SecretsDirKeys,
-  SecretsDirPaths,
+  Base,
+  Keys,
+  Paths,
 
   // Files:
-  SecretsDirKeysSecring,
+  KeysSecring,
 
-  SecretsDirPathsMapping,
+  PathsMapping,
 }
 
-impl Paths {
+impl SecretDir {
   pub fn path(&self) -> PathBuf {
     let base = Path::new(".gitsecret");
     let keys = base.join("keys");
     let paths = base.join("paths");
 
     match *self {
-      Paths::SecretsDir => base.to_owned(),
+      SecretDir::Base => base.to_owned(),
 
-      Paths::SecretsDirKeys => keys,
-      Paths::SecretsDirPaths => paths,
+      SecretDir::Keys => keys,
+      SecretDir::Paths => paths,
 
-      Paths::SecretsDirKeysSecring => keys.join("secring.gpg"),
-      Paths::SecretsDirPathsMapping => paths.join("mapping.cfg"),
+      SecretDir::KeysSecring => keys.join("secring.gpg"),
+      SecretDir::PathsMapping => paths.join("mapping.cfg"),
     }
   }
+
+  // TODO: support `.relative_path()`
 }

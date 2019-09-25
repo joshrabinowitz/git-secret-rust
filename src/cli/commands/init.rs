@@ -1,15 +1,16 @@
-use clap::ArgMatches;
 use std::fs;
 
-use git_secret::errors::ToPathIOErr;
-use git_secret::{consts, errors};
+use clap::ArgMatches;
 
-pub fn run(_args: &ArgMatches) -> Result<String, errors::GitSecretError> {
+use git_secret::errors::ToPathIOErr;
+use git_secret::{consts, types};
+
+pub fn run(_args: &ArgMatches) -> types::Result<String> {
   // Creating file structure:
   let paths = vec![
-    consts::Paths::SecretsDir.path(),
-    consts::Paths::SecretsDirKeys.path(),
-    consts::Paths::SecretsDirPaths.path(),
+    consts::SecretDir::Base.path(),
+    consts::SecretDir::Keys.path(),
+    consts::SecretDir::Paths.path(),
   ];
 
   for path in paths {
@@ -17,7 +18,7 @@ pub fn run(_args: &ArgMatches) -> Result<String, errors::GitSecretError> {
   }
 
   // Creating required files:
-  let files = vec![consts::Paths::SecretsDirPathsMapping.path()];
+  let files = vec![consts::SecretDir::PathsMapping.path()];
 
   for file in files {
     fs::File::create(&file).with_path(&file)?;
@@ -28,6 +29,6 @@ pub fn run(_args: &ArgMatches) -> Result<String, errors::GitSecretError> {
 
   Ok(format!(
     "init created: {}",
-    consts::Paths::SecretsDir.path().display()
+    consts::SecretDir::Base.path().display()
   ))
 }

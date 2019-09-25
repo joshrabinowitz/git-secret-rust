@@ -1,18 +1,25 @@
 [package]
 name = "git-secret"
+description = "A rust-tool to store your private data inside a git repository."
 version = "1.0.0"
 authors = ["sobolevn <mail@sobolevn.me>"]
 edition = "2018"
 build = "build.rs"
 readme = "README.md"
 
-categories = ["command-line-utilities"]
 homepage = "https://github.com/sobolev/git-secret"
+repository = "https://github.com/sobolev/git-secret"
+license = "MIT"
+
+categories = ["command-line-utilities"]
+keywords = ["git", "gpg", "git-secret", "ecryption", "secrets"]
 
 [dependencies]
 custom_error = "1.7.1"
 clap = {version = "2.33", features = ["yaml", "suggestions", "color"]}
 git2 = "0.10"
+gpgme = "0.9.0"
+rust-ini = "0.13"
 
 [build-dependencies]
 clap = "2.33"

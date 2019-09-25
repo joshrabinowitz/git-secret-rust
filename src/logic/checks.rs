@@ -3,25 +3,22 @@ use std::fs;
 use git2::Repository;
 
 use crate::consts;
-use crate::errors;
+use crate::types;
 
-pub fn inside_repo() -> Result<(), errors::GitSecretError> {
-  match Repository::open(".") {
+pub fn inside_repo() -> types::Result<()> {
+  match Repository::open_from_env() {
     Ok(_repo) => Ok(()),
-    Err(_) => Err(errors::GitSecretError::Simple {
-      reason: "not in dir with git repo".to_string(),
-    }),
+    Err(_) => Err("not in dir with git repo")?,
   }
 }
 
-pub fn clean_secring() -> Result<(), errors::GitSecretError> {
-  let metadata = fs::metadata(consts::Paths::SecretsDirKeysSecring.path());
+// TODO: check that `.gitsecret/private-keys-v1.d` folder is empty
+pub fn clean_secring() -> types::Result<()> {
+  let metadata = fs::metadata(consts::SecretDir::KeysSecring.path());
 
   if let Ok(file) = metadata {
     if !file.is_file() || file.len() > 0 {
-      return Err(errors::GitSecretError::Simple {
-        reason: "it seems that someone has imported a secret key.".to_string(),
-      });
+      Err("it seems that someone has imported a secret key.")?;
     }
   };
 

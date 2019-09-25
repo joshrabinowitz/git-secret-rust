@@ -19,8 +19,22 @@ pub fn build_cli() -> App<'static, 'static> {
         .takes_value(false)
         .help("Performs the dry run and does not actually do anything"),
     )
+    .subcommand(SubCommand::with_name("init").about(
+      "Creates the .gitsecret directory and contents needed for git-secret",
+    ))
     .subcommand(
-      SubCommand::with_name("init")
-        .about("Setups the project structure for git-secret"),
+      SubCommand::with_name("tell")
+        .about("Adds access for user by importing public key via email")
+        .arg(
+          Arg::with_name("email")
+            .required(true)
+            .multiple(true)
+            .help("Users to give access to"),
+        )
+        .arg(
+          Arg::with_name("me")
+            .short("m")
+            .help("Use my email from git"),
+        ),
     )
 }
