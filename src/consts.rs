@@ -29,5 +29,9 @@ impl SecretDir {
     }
   }
 
+  pub fn string(&self) -> String {
+    self.path().to_string_lossy().into_owned()
+  }
+
   // TODO: support `.relative_path()`
 }

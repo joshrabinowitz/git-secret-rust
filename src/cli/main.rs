@@ -35,6 +35,7 @@ fn dispatch_command() -> types::Result<String> {
   match matches.subcommand() {
     ("init", Some(args)) => call_command(commands::init::run, args),
     ("tell", Some(args)) => call_command(commands::tell::run, args),
+    ("add", Some(args)) => call_command(commands::add::run, args),
     _ => unreachable!("Unknown command"), // this cannot realistically happen!
   }
 }

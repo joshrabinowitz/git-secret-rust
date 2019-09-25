@@ -21,12 +21,7 @@ pub fn export(key_ids: Vec<&str>) -> types::Result<Vec<u8>> {
 
 pub fn import(key_contents: Vec<u8>) -> types::Result<ImportResult> {
   let mut git_secret_keyring = Context::from_protocol(Protocol::OpenPgp)?;
-  git_secret_keyring.set_engine_home_dir(
-    consts::SecretDir::Base
-      .path() // TODO: create .string() method in consts
-      .to_string_lossy()
-      .into_owned(),
-  )?;
+  git_secret_keyring.set_engine_home_dir(consts::SecretDir::Base.string())?;
 
   let mut data = Data::from_reader(&key_contents[..])?;
   Ok(git_secret_keyring.import(&mut data)?)

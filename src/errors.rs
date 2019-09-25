@@ -1,13 +1,11 @@
-extern crate custom_error;
-
-use custom_error::custom_error;
-
 use std::fmt;
 use std::io;
 use std::path::{Path, PathBuf};
 
+use custom_error::custom_error;
 use gpgme::data;
 use gpgme::error as gpg_error;
+use ini;
 
 // We use this error as the main one accross this app.
 custom_error! {
@@ -29,6 +27,10 @@ custom_error! {
   GPG {
     source: gpg_error::Error
   } = @{format!("gpg: {}", source)},
+
+  INI {
+    source: ini::ini::Error
+  } = @{format!("ini: {}", source)},
 
   Simple {
     reason: String

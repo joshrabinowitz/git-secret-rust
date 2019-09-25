@@ -37,4 +37,14 @@ pub fn build_cli() -> App<'static, 'static> {
             .help("Use my email from git"),
         ),
     )
+    .subcommand(
+      SubCommand::with_name("add")
+        .about("Adds file to be hidden later, also adds file to .gitignore")
+        .arg(
+          Arg::with_name("file")
+            .required(true)
+            .multiple(true)
+            .help("Files to hide later"),
+        ),
+    )
 }

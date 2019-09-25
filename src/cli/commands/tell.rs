@@ -17,6 +17,7 @@ pub fn run(args: &ArgMatches) -> types::Result<String> {
 
   // Import:
   let import_result = logic::keys::import(key_contents)?;
+  // TODO: return error if not all keys are imported
   report_import_result(import_result)
 }
 
