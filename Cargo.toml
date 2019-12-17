@@ -11,8 +11,9 @@ homepage = "https://github.com/sobolev/git-secret"
 repository = "https://github.com/sobolev/git-secret"
 license = "MIT"
 
-categories = ["command-line-utilities"]
+categories = ["command-line-utilities", "development-tools"]
 keywords = ["git", "gpg", "git-secret", "ecryption", "secrets"]
+badges = []
 
 [dependencies]
 custom_error = "1.7.1"

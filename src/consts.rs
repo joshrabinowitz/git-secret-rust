@@ -34,4 +34,5 @@ impl SecretDir {
   }
 
   // TODO: support `.relative_path()`
+  // https://docs.rs/git2/0.10.1/git2/struct.Repository.html#method.workdir
 }
